@@ -77,7 +77,7 @@ func Wrap(handler http.Handler) http.HandlerFunc {
 			content = fmt.Sprintf("\033[1;36m%s\033[0m", content)
 		}
 
-		fmt.Sprintf("\033[1;30m[%s]\033[0m]", time.Now().Format(logTimeFormat), content)
+		content = fmt.Sprintf("\033[1;30m[%s]\033[0m]", time.Now().Format(logTimeFormat), content)
 		fmt.Println(content)
 	}
 }
