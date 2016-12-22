@@ -52,8 +52,7 @@ func Wrap(handler http.Handler) http.HandlerFunc {
 		logTimeFormat := "2006-01-02 15:04:05"
 
 		content := fmt.Sprintf(
-			"[%s] [%s](%d %s) \"%s\" in %v",
-			time.Now().Format(logTimeFormat),
+			"[%s](%d %s) \"%s\" in %v",
 			method,
 			statusCode,
 			http.StatusText(statusCode),
@@ -65,20 +64,20 @@ func Wrap(handler http.Handler) http.HandlerFunc {
 			content = fmt.Sprintf("%s size: %d bytes", content, size)
 		}
 
-		switch statusCode {
-		case 200, 201, 202:
+		switch {
+		case statusCode < 200:
+			content = fmt.Sprintf("\037[1;30m%s\033[0m", content)
+		case statusCode < 300:
 			content = fmt.Sprintf("\033[1;32m%s\033[0m", content)
-		case 301, 302:
-			content = fmt.Sprintf("\033[1;37m%s\033[0m", content)
-		case 304:
-			content = fmt.Sprintf("\033[1;33m%s\033[0m", content)
-		case 401, 403:
-			content = fmt.Sprintf("\033[4;31m%s\033[0m", content)
-		case 404:
+		case statusCode < 400:
+			content = fmt.Sprintf("\033[1;35m%s\033[0m", content)
+		case statusCode < 500:
 			content = fmt.Sprintf("\033[1;31m%s\033[0m", content)
-		case 500:
+		case statusCode < 600:
 			content = fmt.Sprintf("\033[1;36m%s\033[0m", content)
 		}
+
+		fmt.Sprintf("\033[1;30m[%s]\033[0m]", time.Now().Format(logTimeFormat), content)
 		fmt.Println(content)
 	}
 }
