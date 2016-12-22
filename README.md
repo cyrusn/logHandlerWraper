@@ -1,6 +1,6 @@
-# A logging handler wrapper for golang net/http package
+# A logging handler wrapper for Golang net/http package
 
-## Example
+## Usage
 
 ``` go
 package main
@@ -11,7 +11,6 @@ import (
 
   "github.com/cyrusn/logHandlerWraper"
 )
-
 
 func main() {
   addr := "127.0.0.1:8080"
