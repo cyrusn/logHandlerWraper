@@ -1,7 +1,3 @@
-/*
-Package logHandlerWraper is a handler wraper for package net/http,
-which provide the http access log in os.StdOut
-*/
 package logHandlerWraper
 
 import (
