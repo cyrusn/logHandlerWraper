@@ -44,6 +44,7 @@ func Wrap(handler http.Handler) http.HandlerFunc {
 		}
 		handler.ServeHTTP(lw, req)
 
+		method := req.Method
 		start := time.Now()
 		statusCode := lw.Status()
 		size := lw.Size()
@@ -51,16 +52,17 @@ func Wrap(handler http.Handler) http.HandlerFunc {
 		logTimeFormat := "2006-01-02 15:04:05"
 
 		content := fmt.Sprintf(
-			"[%s]: Completed %s [%d %s] in %v",
+			"[%s] [%s](%d %s) \"%s\" in %v",
 			time.Now().Format(logTimeFormat),
-			requestURI,
+			method,
 			statusCode,
 			http.StatusText(statusCode),
+			requestURI,
 			time.Since(start),
 		)
 
 		if size != 0 {
-			content = fmt.Sprintf("%s size: %d", content, size)
+			content = fmt.Sprintf("%s size: %d bytes", content, size)
 		}
 
 		switch statusCode {
