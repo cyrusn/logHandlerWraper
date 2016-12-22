@@ -1,4 +1,4 @@
-package logHandlerWraper
+package logHandlerWraper_test
 
 import (
 	"fmt"
